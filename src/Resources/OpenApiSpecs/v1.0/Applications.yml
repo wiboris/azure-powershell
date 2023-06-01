@@ -6,13 +6,22 @@ servers:
   - url: https://graph.microsoft.com/v1.0/
     description: Core
 paths:
-  /applications:
+  '/applications(date={date})':
     get:
       tags:
         - applications.application
       summary: Get entities from applications
       operationId: applications.application_ListApplication
       parameters:
+        - name: date
+          in: path
+          description: 'Usage: date={date}'
+          required: true
+          style: simple
+          schema:
+            pattern: '^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$'
+            type: string
+            format: date
         - name: ConsistencyLevel
           in: header
           description: 'Indicates the requested consistency level. Documentation URL: https://developer.microsoft.com/en-us/office/blogs/microsoft-graph-advanced-queries-for-directory-objects-are-now-generally-available/'
@@ -192,28 +201,6 @@ paths:
       x-ms-pageable:
         nextLinkName: '@odata.nextLink'
         operationName: listMore
-      x-ms-docs-operation-type: operation
-    post:
-      tags:
-        - applications.application
-      summary: Add new entity to applications
-      operationId: applications.application_CreateApplication
-      requestBody:
-        description: New entity
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/microsoft.graph.application'
-        required: true
-      responses:
-        '201':
-          description: Created entity
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/microsoft.graph.application'
-        default:
-          $ref: '#/components/responses/error'
       x-ms-docs-operation-type: operation
   '/applications/{application-id}':
     get:
