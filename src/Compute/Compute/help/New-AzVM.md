@@ -105,10 +105,10 @@ This script uses several other cmdlets.
 ```powershell
 ## VM Account
 # Credentials for Local Admin account you created in the sysprepped (generalized) vhd image
-$VMLocalAdminUser = "LocalAdminUser"
-$VMLocalAdminSecurePassword = ConvertTo-SecureString "Password" -AsPlainText -Force
+$VMLocalAdminUser = <Username>
+$VMLocalAdminSecurePassword = ConvertTo-SecureString <Password> -AsPlainText -Force
 ## Azure Account
-$LocationName = "westus"
+$LocationName = "eastus"
 $ResourceGroupName = "MyResourceGroup"
 # This a Premium_LRS storage account.
 # It is required in order to run a client VM with efficiency and high performance.
@@ -157,13 +157,13 @@ You can confirm your login status by using the **Get-AzSubscription** cmdlet.
 
 ### Example 3: Create a VM from a marketplace image without a Public IP
 ```powershell
-$VMLocalAdminUser = "LocalAdminUser"
-$VMLocalAdminSecurePassword = ConvertTo-SecureString "password" -AsPlainText -Force
-$LocationName = "westus"
+$VMLocalAdminUser = <Username>
+$VMLocalAdminSecurePassword = ConvertTo-SecureString <Password> -AsPlainText -Force
+$LocationName = "eastus"
 $ResourceGroupName = "MyResourceGroup"
 $ComputerName = "MyVM"
 $VMName = "MyVM"
-$VMSize = "Standard_DS3"
+$VMSize = "Standard_D2s_v3"
 
 $NetworkName = "MyNet"
 $NICName = "MyNIC"
@@ -190,8 +190,8 @@ This command creates a VM from a marketplace image without a Public IP.
 ### Example 4: Create a VM with a UserData value:
 ```powershell
 ## VM Account
-$VMLocalAdminUser = "LocalAdminUser";
-$VMLocalAdminSecurePassword = ConvertTo-SecureString "Password" -AsPlainText -Force;
+$VMLocalAdminUser = <Username>;
+$VMLocalAdminSecurePassword = ConvertTo-SecureString <Password> -AsPlainText -Force;
 
 ## Azure Account
 $LocationName = "eastus";
@@ -216,8 +216,8 @@ The UserData value must always be Base64 encoded.
 
 ### Example 5: Creating a new VM with an existing subnet in another resource group
 ```powershell
-$UserName = "User"
-$Password = ConvertTo-SecureString "############" -AsPlainText -Force
+$UserName = <Username>
+$Password = ConvertTo-SecureString <Password> -AsPlainText -Force
 $psCred = New-Object System.Management.Automation.PSCredential($UserName, $Password)
 
 $Vnet = $(Get-AzVirtualNetwork -ResourceGroupName ResourceGroup2 -Name VnetName)
@@ -236,11 +236,11 @@ This example deploys a Windows VM from the marketplace in one resource group wit
 ### Example 6: Creating a new VM as part of a VMSS with a PlatformFaultDomain value.
 ```powershell
 $resourceGroupName= "Resource Group Name"
-$domainNameLabel = "Domain Name Label Name"
+$domainNameLabel = "Domain Name Label"
 $vmname = "Virtual Machine Name"
 $platformFaultDomainVMDefaultSet = 2
-$securePassword = "Password" | ConvertTo-SecureString -AsPlainText -Force
-$user = "Username"
+$securePassword = <Password> | ConvertTo-SecureString -AsPlainText -Force
+$user = <Username>
 $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword)
 $vmssName = "Vmss Name";
 
@@ -282,9 +282,9 @@ $extDefaultName = "GuestAttestation";
 $vmGADefaultIDentity = "SystemAssigned";
 
 # Credential
-$password = <PASSWORD>;
+$password = <Password>;
 $securePassword = $password | ConvertTo-SecureString -AsPlainText -Force;  
-$user = <USER NAME>;
+$user = <Username>;
 $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
 
 # Network resources
