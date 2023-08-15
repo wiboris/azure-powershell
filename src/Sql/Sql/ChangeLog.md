@@ -18,6 +18,8 @@
         - Additional information about change #1
 -->
 ## Upcoming Release
+
+## Version 4.10.0
 * Added `makeBackupsImmutable` optional parameter to `Set-SqlDatabaseLongTermRetentionPolicy`
 * Fixed cmdlets to use 2018-06-01-preview api version
     - 'Set-AzSqlInstanceDatabaseSensitivityClassification',
