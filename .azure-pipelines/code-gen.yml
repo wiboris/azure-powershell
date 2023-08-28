@@ -96,11 +96,11 @@ jobs:
       git push origin codegen/${{ parameters.ServiceName }} --force;
     displayName: Create codegen/${{ parameters.ServiceName }} branch
   - pwsh: |
-      $Title = "Migrate ${{ parameters.ServiceName }} from generation to ${{ parameters.TargetBranch }}"
       $HeadBranch = "codegen/${{ parameters.ServiceName }}"
       $BaseBranch = "${{ parameters.TargetBranch }}"
       $SourceBranch = "$(Build.SourceBranch)"
       $SourceBranch = $BaseBranch.Replace("refs/heads/", "")
+      $Title = "Migrate ${{ parameters.ServiceName }} from $SourceBranch to ${{ parameters.TargetBranch }}"
       $Description = "Migrate ${{ parameters.ServiceName }} from $SourceBranch to ${{ parameters.TargetBranch }}"
       ./tools/Github/CreatePR.ps1 -Title $Title -HeadBranch $HeadBranch -BaseBranch $BaseBranch -BotAccessToken $(BotAccessToken) -Description $Description
     displayName: Create PR to main branch
