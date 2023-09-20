@@ -3,8 +3,8 @@ parameters:
   displayName: Branch for OOB pipeline
   type: string
   default: 'none'
-- name: BuildModule
-  displayName: Build Module
+- name: TargetModule
+  displayName: Target Module
   type: string
   default: 'Databricks'
 jobs:
