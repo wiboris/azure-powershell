@@ -6,7 +6,7 @@ parameters:
 - name: BuildModule
   displayName: Build Module
   type: string
-  default: ''
+  default: 'Databricks'
 jobs:
 - job: Release
   timeoutInMinutes: 180
