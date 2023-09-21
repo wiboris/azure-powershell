@@ -360,11 +360,11 @@ jobs:
       ./setup/generate.ps1 -repository MSIcreationrepository
       Unregister-PSRepository -Name MSIcreationrepository
     displayName: 'Build Installer'
-    condition: and(succeeded(), ne(${{ parameters.TargetModule }}, 'Default'))
+    condition: and(succeeded(), ne('${{ parameters.TargetModule }}', 'Default'))
 
   - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
     displayName: 'Installer Signing [Authenticode]'
-    condition: and(succeeded(), ne(${{ parameters.TargetModule }}, 'Default'))
+    condition: and(succeeded(), ne('${{ parameters.TargetModule }}', 'Default'))
     inputs:
       ConnectedServiceName: 'ESRP Signing Service'
       FolderPath: setup
@@ -410,7 +410,7 @@ jobs:
 
   - task: ArchiveFiles@2
     displayName: 'Pack nuget packages as Az-Cmdlets-latest.tar.gz'
-    condition: and(succeeded(), ne(${{ parameters.TargetModule }}, 'Default'))
+    condition: and(succeeded(), ne('${{ parameters.TargetModule }}', 'Default'))
     inputs:
       rootFolderOrFile: 'artifacts/$(LocalRepoName)'
       includeRootFolder: false
