@@ -410,7 +410,7 @@ jobs:
 
   - task: ArchiveFiles@2
     displayName: 'Pack nuget packages as Az-Cmdlets-latest.tar.gz'
-    condition: and(succeeded(), ne(${{ parameters.TargetModule }}, 'Default')}
+    condition: and(succeeded(), ne(${{ parameters.TargetModule }}, 'Default'))
     inputs:
       rootFolderOrFile: 'artifacts/$(LocalRepoName)'
       includeRootFolder: false
