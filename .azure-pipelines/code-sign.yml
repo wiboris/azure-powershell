@@ -4,9 +4,9 @@ parameters:
   type: string
   default: 'none'
 - name: TargetModule
-  displayName: Target Module
+  displayName: Target Module (Default all modules)
   type: string
-  default: 'Databricks'
+  default: 'Default'
 jobs:
 - job: Release
   timeoutInMinutes: 180
@@ -293,15 +293,13 @@ jobs:
       #this task won't be triggered unless $AzureStack was set to true
       #move Az.Accounts.*.nupkg to a temporary folder "non_release_artifacts"
       New-Item -Path "artifacts" -Name "non_release_artifacts" -ItemType "directory"
-      
-      # $accounts = Get-ChildItem -Path "artifacts" -Filter "*Az.Accounts.*.nupkg"
-      # $iothub= Get-ChildItem -Path "artifacts" -Filter "*Az.IotHub.*.nupkg"
+      #$accounts = Get-ChildItem -Path "artifacts" -Filter "*Az.Accounts.*.nupkg"
+      #$iothub= Get-ChildItem -Path "artifacts" -Filter "*Az.IotHub.*.nupkg"
       $eventhub= Get-ChildItem -Path "artifacts" -Filter "*Az.EventHub.*.nupkg"
       $databoxedge= Get-ChildItem -Path "artifacts" -Filter "*Az.DataBoxEdge.*.nupkg"
       $monitor= Get-ChildItem -Path "artifacts" -Filter "*Az.Monitor.*.nupkg"
-      
-      # Move-Item -Path $accounts.FullName -Destination "artifacts\non_release_artifacts"
-      # Move-Item -Path $iothub.FullName -Destination "artifacts\non_release_artifacts"
+      #Move-Item -Path $accounts.FullName -Destination "artifacts\non_release_artifacts"
+      #Move-Item -Path $iothub.FullName -Destination "artifacts\non_release_artifacts"
       Move-Item -Path $eventhub.FullName -Destination "artifacts\non_release_artifacts"
       Move-Item -Path $databoxedge.FullName -Destination "artifacts\non_release_artifacts"
       Move-Item -Path $monitor.FullName -Destination "artifacts\non_release_artifacts"
@@ -362,9 +360,11 @@ jobs:
       ./setup/generate.ps1 -repository MSIcreationrepository
       Unregister-PSRepository -Name MSIcreationrepository
     displayName: 'Build Installer'
+    condition: and(succeeded(), ne(${{ parameters.TargetModule }}, 'Default')
 
   - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
     displayName: 'Installer Signing [Authenticode]'
+    condition: and(succeeded(), ne(${{ parameters.TargetModule }}, 'Default')
     inputs:
       ConnectedServiceName: 'ESRP Signing Service'
       FolderPath: setup
@@ -410,6 +410,7 @@ jobs:
 
   - task: ArchiveFiles@2
     displayName: 'Pack nuget packages as Az-Cmdlets-latest.tar.gz'
+    condition: and(succeeded(), ne(${{ parameters.TargetModule }}, 'Default')
     inputs:
       rootFolderOrFile: 'artifacts/$(LocalRepoName)'
       includeRootFolder: false
